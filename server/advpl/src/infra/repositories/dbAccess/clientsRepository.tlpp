@@ -1,0 +1,43 @@
+#include "totvs.ch"
+
+namespace project.advplgraphql
+
+/*/{Protheus.doc} DBAccessClientsRepository
+
+Repositório da entidade Classe utilzando o dbAccess
+	
+@type class
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+class DBAccessClientsRepository
+    public method new()                     constructor
+    public method find(cCGC as character)   as json
+
+endClass
+
+Method new() class DBAccessClientsRepository
+
+Return
+
+Method find(cCGC as character) as json class DBAccessClientsRepository
+    Local jClient   := JsonObject():new()   as json
+    Default cCGC    := ""
+    
+    dbSelectArea("SA1")
+    SA1->(dbSetOrder(3))
+
+    If SA1->(msSeek(FWxFilial("SA1") + cCGC))
+        jClient['code']     := SA1->A1_COD
+        jClient['store']    := SA1->A1_LOJA
+        jClient['cgc']      := SA1->A1_CGC
+        jClient['name']     := allTrim(SA1->A1_NOME)
+        jClient['address']  := allTrim(SA1->A1_END)
+        jClient['email']    := allTrim(SA1->A1_EMAIL)
+    EndIf
+
+    SA1->(dbCloseArea())
+
+Return jClient
