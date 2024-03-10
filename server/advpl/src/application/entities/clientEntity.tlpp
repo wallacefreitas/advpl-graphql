@@ -1,0 +1,74 @@
+#include "totvs.ch"
+
+namespace project.advplgraphql
+
+/*/{Protheus.doc} ClientEntity
+
+Classe da entidade Cliente
+	
+@type class
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Class ClientEntity
+    private data jClient         as json
+
+    public method new()         constructor
+    public method getClient()   as json
+
+EndClass
+
+/*/{Protheus.doc} new
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method new(jProps as json) class ClientEntity
+    Local oError    := ErrorClass():New()
+    Default jProps  := Nil
+
+    try
+        If Empty(jProps["code"]) .or. Empty(jProps["store"])
+            throw "Code/Store is not empty"
+        EndIf
+
+        If Empty(jProps["name"])
+            throw "Name is not empty"
+        EndIf
+
+        If Empty(jProps["address"])
+            throw "Address is not empty"
+        EndIf
+
+        If Empty(jProps["email"])
+            throw "Email is not empty"
+        EndIf
+
+    catch oError
+        conout(oError:description)
+    endTry
+
+    ::jClient := jProps
+
+Return self
+
+/*/{Protheus.doc} getClient
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method getClient() as json class ClientEntity
+    
+Return ::jClient
