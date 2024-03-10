@@ -30,6 +30,7 @@ Method find(cCGC as character) as json class DBAccessClientsRepository
     SA1->(dbSetOrder(3))
 
     If SA1->(msSeek(FWxFilial("SA1") + cCGC))
+        jClient['id']       := SA1->(RecNo())
         jClient['code']     := SA1->A1_COD
         jClient['store']    := SA1->A1_LOJA
         jClient['cgc']      := SA1->A1_CGC
