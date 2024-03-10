@@ -22,31 +22,26 @@ Method new() class DBAccessSalesOrdersRepository
 
 Return
 
-Method findAllPerClient(cCGC as character) as json class DBAccessSalesOrdersRepository
-    Local jSaleOrders   := JsonObject():new()       as json
-    Local aFields       := {"A1_COD", "A1_LOJA"}    as array
-    Local aDefault      := {"", ""}                 as array
-    Local aJson         := {}                       as array
-    Local aItems        := {}                       as array
-    Local cCodeClient   := ""                       as character
-    Local cStoreClient  := ""                       as character
-    Local nLastPos      := 0                        as integer
-    Local nLastItemPos  := 0                        as integer
-    Local nIndex        := 3                        as integer
-    Default cCGC        := ""
+Method findAllPerClient(nClientId as integer) as json class DBAccessSalesOrdersRepository
+    Local jSaleOrders   := JsonObject():new()   as json
+    Local aJson         := {}                   as array
+    Local aItems        := {}                   as array
+    Local nLastPos      := 0                    as integer
+    Local nLastItemPos  := 0                    as integer
+    Default nClientId   := 0
 
-    aRetorno        := GetAdvFVal("SA1", aFields, FWxFilial("SA1") + cCGC, nIndex, aDefault)
-    cCodeClient     := aRetorno[1]
-    cStoreClient    := aRetorno[2]
-    
+    conout(nClientId)
+    dbSelectArea("SA1")
+    SA1->(dbGoTo(nClientId))
+
     dbSelectArea("SC5")
     SC5->(dbSetOrder(3))
 
-    If SC5->(msSeek(FWxFilial("SC5") + cCodeClient + cStoreClient))
+    If SC5->(msSeek(FWxFilial("SC5") + SA1->A1_COD + SA1->A1_LOJA))
         dbSelectArea("SC6")
         SC6->(dbSetOrder(1))
 
-        While !SC5->(EoF()) .and. (SC5->C5_CLIENT == cCodeClient .and. SC5->C5_LOJACLI == cStoreClient)
+        While !SC5->(EoF()) .and. (SC5->C5_CLIENT == SA1->A1_COD .and. SC5->C5_LOJACLI == SA1->A1_LOJA)
             aAdd(aJson, JsonObject():new())
 
             aItems                  := {}
@@ -75,6 +70,7 @@ Method findAllPerClient(cCGC as character) as json class DBAccessSalesOrdersRepo
 
     jSaleOrders:set(aJson)
 
+    SA1->(dbCloseArea())
     SC5->(dbCloseArea())
 
 Return jSaleOrders
