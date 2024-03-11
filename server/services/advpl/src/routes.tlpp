@@ -1,0 +1,64 @@
+#include "totvs.ch"
+#include "tlpp-core.th"
+#include "tlpp-rest.th"
+#include "topconn.ch"
+
+namespace project.advplgraphql
+
+/*/{protheus.doc} getUniqueClient
+
+Método GET para retornar um cliente específico filtrado pelo CGC
+Usando REST Versão 2.0 com Annotation
+
+@type function
+@author Wallace de Freitas
+@since 09/04/2024
+@version P12
+@database Oracle
+
+/*/ 
+@GET(endpoint="api/v1/client/:cgc", description="List an unique client per CGC")
+User Function getUniqueClient()
+    Local oClientsRepository    := DBAccessClientsRepository():new()                    as object
+    Local oListUniqueClient     := ListUniqueClientUseCase():new(oClientsRepository)    as object
+    Local oClientEntity         := Nil                                                  as object
+    Local jPathParams           := oRest:getPathParamsRequest()                         as json
+    Local jResponse             := Nil                                                  as json
+
+    oClientEntity   := oListUniqueClient:execute(jPathParams)
+    jResponse       := oClientEntity:getClient()
+
+    oRest:appendKeyHeaderResponse("Content-Type","application/json")
+    oRest:setResponse(jResponse:toJson())
+    oRest:setStatusCode(200)
+
+Return
+
+/*/{protheus.doc} getOrdersByClient
+
+Método GET para retornar um cliente específico filtrado pelo CGC
+Usando REST Versão 2.0 com Annotation
+
+@type function
+@author Wallace de Freitas
+@since 09/04/2024
+@version P12
+@database Oracle
+
+/*/ 
+@GET(endpoint="api/v1/client/:clientId/orders", description="List all Orders of an specific Client")
+User Function getSaleOrdersPerClient()
+    Local oSalesOrdersRepository    := DBAccessSalesOrdersRepository():new()                        as object
+    Local oListSaleOrdersPerClient  := ListSaleOrdersPerClientUseCase():new(oSalesOrdersRepository) as object
+    Local oSaleOrderEntity          := Nil                                                          as object
+    Local jPathParams               := oRest:getPathParamsRequest()                                 as json
+    Local jResponse                 := Nil                                                          as json
+
+    oSaleOrderEntity    := oListSaleOrdersPerClient:execute(jPathParams)
+    jResponse           := oSaleOrderEntity:getSaleOrder()
+
+    oRest:appendKeyHeaderResponse("Content-Type","application/json")
+    oRest:setResponse(jResponse:toJson())
+    oRest:setStatusCode(200)
+
+Return
