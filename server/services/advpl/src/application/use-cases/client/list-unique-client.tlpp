@@ -1,0 +1,60 @@
+#include "totvs.ch"
+
+namespace project.advplgraphql
+
+/*/{Protheus.doc} ClientEntity
+
+Classe responsável por conter os casos de uso do Cliente
+	
+@type class
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+class ListUniqueClientUseCase
+    public method new()                     constructor
+    public method execute(jRequest as json) as object
+
+    private data oClientsRepository         as object
+
+endClass
+
+/*/{Protheus.doc} new
+
+Método construtor da classe ListUniqueClientUseCase
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method new(oClientsRepository as object) class ListUniqueClientUseCase
+    Default oClientsRepository  := Nil
+
+    ::oClientsRepository := oClientsRepository
+
+Return self
+
+/*/{Protheus.doc} execute
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method execute(jRequest as json) as object class ListUniqueClientUseCase
+    Local oClientEntity := Nil  as object
+    Local jClient       := Nil  as json
+    Local cCGC          := ""   as character
+    Default jRequest    := Nil
+
+    cCGC            := jRequest["cgc"]
+    jClient         := ::oClientsRepository:find(cCGC)
+    oClientEntity   := ClientEntity():new(jClient)
+
+Return oClientEntity
