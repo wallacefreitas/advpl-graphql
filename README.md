@@ -6,13 +6,24 @@ This is project was development with intention to study concepts with: Clean Arc
 
 ### Languages & Frameworks
 
-- Node JS
+- NodeJS
 - AdvPL
 - GraphQL
 
 ### Architecture
 
 ![image](readme/images/architecture.png)
+
+### Structure Folder
+
+```
+📁 server
+    📁 gateway (GraphQL + NodeJS)
+    📁 services
+        📁 clientes (AdvPL)
+        📁 sales-orders (AdvPL)
+
+```
 
 ### How to Execute
 
