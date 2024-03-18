@@ -2,3 +2,4 @@ node_modules
 .vscode
 *.code-workspace
 .env
+*.DS_Store
