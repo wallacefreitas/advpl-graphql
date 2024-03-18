@@ -1,0 +1,34 @@
+#include "totvs.ch"
+#include "tlpp-core.th"
+#include "tlpp-rest.th"
+#include "topconn.ch"
+
+namespace project.advplgraphql
+
+/*/{protheus.doc} getOrdersByClient
+
+Método GET para retornar os pedidos de venda de um cliente específico
+Usando REST Versão 2.0 com Annotation
+
+@type function
+@author Wallace de Freitas
+@since 09/04/2024
+@version P12
+
+/*/ 
+@GET(endpoint="api/v1/client/:clientId/orders", description="List all Orders of an specific Client")
+User Function getSaleOrdersPerClient()
+    Local oSalesOrdersRepository    := DBAccessSalesOrdersRepository():new()                        as object
+    Local oListSaleOrdersPerClient  := ListSaleOrdersPerClientUseCase():new(oSalesOrdersRepository) as object
+    Local oSaleOrderEntity          := Nil                                                          as object
+    Local jPathParams               := oRest:getPathParamsRequest()                                 as json
+    Local jResponse                 := Nil                                                          as json
+
+    oSaleOrderEntity    := oListSaleOrdersPerClient:execute(jPathParams)
+    jResponse           := oSaleOrderEntity:getSaleOrder()
+
+    oRest:appendKeyHeaderResponse("Content-Type","application/json")
+    oRest:setResponse(jResponse:toJson())
+    oRest:setStatusCode(200)
+
+Return
