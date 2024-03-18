@@ -22,7 +22,6 @@ This is project was development with intention to study concepts with: Clean Arc
     📁 services
         📁 clientes (AdvPL)
         📁 sales-orders (AdvPL)
-
 ```
 
 ### How to Execute
