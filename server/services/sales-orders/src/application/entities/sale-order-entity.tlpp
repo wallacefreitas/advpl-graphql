@@ -1,0 +1,62 @@
+#include "totvs.ch"
+
+namespace project.advplgraphql
+
+/*/{Protheus.doc} OrderSaleEntity
+
+Classe da entidade Pedido de Venda
+	
+@type class
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Class SaleOrderEntity
+    private data jSaleOrder        as json
+
+    public method new()             constructor
+    public method getSaleOrder()    as json
+
+EndClass
+
+/*/{Protheus.doc} new
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method new(jProps as json) class SaleOrderEntity
+    Local oError    := ErrorClass():New()
+    Default jProps  := Nil
+
+    try
+        If Empty(jProps["code"])
+            throw "Code is not empty"
+        EndIf
+
+    catch oError
+        conout(oError:description)
+    endTry
+
+    ::jSaleOrder := jProps
+
+Return self
+
+/*/{Protheus.doc} getClient
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method getSaleOrder() as json class SaleOrderEntity
+    
+Return ::jSaleOrder
