@@ -1,0 +1,60 @@
+#include "totvs.ch"
+
+namespace project.advplgraphql
+
+/*/{Protheus.doc} ListSaleOrdersPerClientUseCase
+
+Classe responsável por conter os casos de uso do Cliente
+	
+@type class
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+class ListSaleOrdersPerClientUseCase
+    public method new()                     constructor
+    public method execute(jRequest as json) as object
+
+    private data oSaleOrdersRepository      as object
+
+endClass
+
+/*/{Protheus.doc} new
+
+Método construtor da classe ListSaleOrdersPerClientUseCase
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method new(oSaleOrdersRepository as object) class ListSaleOrdersPerClientUseCase
+    Default oSaleOrdersRepository  := Nil
+
+    ::oSaleOrdersRepository := oSaleOrdersRepository
+
+Return self
+
+/*/{Protheus.doc} execute
+
+...
+	
+@type method
+@author Wallace de Freitas
+@since 09/03/2024
+@version P11,P12
+
+/*/
+Method execute(jRequest as json) as object class ListSaleOrdersPerClientUseCase
+    Local oSaleOrderEntity  := Nil  as object
+    Local jSaleOrder        := Nil  as json
+    Local nClientId         := 0    as integer
+    Default jRequest        := Nil
+
+    nClientId           := val(jRequest["clientId"])
+    jSaleOrder          := ::oSaleOrdersRepository:findAllPerClient(nClientId)
+    oSaleOrderEntity    := SaleOrderEntity():new(jSaleOrder)
+
+Return oSaleOrderEntity
