@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "tsnd --respawn --transpile-only src/index.ts"
+    "dev": "tsnd --respawn --transpile-only --env-file ../.env  src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -13,7 +13,6 @@
     "@apollo/datasource-rest": "^6.2.2",
     "@apollo/server": "^4.10.1",
     "class-validator": "^0.14.1",
-    "dotenv": "^16.4.5",
     "graphql": "15.8.0",
     "reflect-metadata": "^0.2.1",
     "type-graphql": "^1.1.1"
